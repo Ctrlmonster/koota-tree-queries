@@ -51,7 +51,9 @@ const HasSiblings = createTreeQueryFilter((e1, e2, _world) => {
   const parentOfEntity2 = e2.targetFor(IsChildOf);
 
   // we got the same parent! we must be siblings
-  return (parentOfEntity1 === parentOfEntity2) && (parentOfEntity1 !== undefined) && (e1 !== e2);
+  return (parentOfEntity1 === parentOfEntity2) && 
+         (parentOfEntity1 !== undefined) && 
+         (e1 !== e2); // careful: entities can match themselves 
 });
 
 // Create a Tree Query 
