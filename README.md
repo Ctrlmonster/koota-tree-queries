@@ -116,7 +116,7 @@ expect(TreeRoot(world).length).toBe(0);
 ```
 
  
-### To abstract? More gamified example:
+### Too abstract? More gamified example:
 
 ```ts
 import {relation} from "koota";
