@@ -148,7 +148,7 @@ const InPickupRange = createTreeQueryFilter((eid1, eid2, _world) => {
 // example query 1 🚀(💟️): check for spaceships that have pickups in range
 const spaceshipsWithPickupsInRange = createTreeQuery(
   IsSpaceship, Radius, Position,
-  InPickupRange(IsHealthPickup, Radius, Position) // the filter needs all these to be present
+  InPickupRange(IsHealthPickup, Radius, Position) // the filter assumes all these 
 );
 
 
