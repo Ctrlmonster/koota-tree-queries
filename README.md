@@ -125,9 +125,7 @@ const IsHealthPickup = trait(); // 💟️️
 
 // our custom query filter function:
 const InPickupRange = createTreeQueryFilter((eid1, eid2, _world) => {
-  // get both positions. We just assume they exist, the query should be written in a way that guarantees this
-  // (just add the traits the filter is using), but we could also write the filter defensively and
-  // return false if either entity is missing traits.
+  // get both positions and calc distance against a threshold (radii here)
   const myPos = eid1.get(Position)!;
   const otherPos = eid2.get(Position)!;
 
