@@ -170,9 +170,8 @@ const explosive = world.spawn(IsExplosiveOnContact, Radius, Position)
 // query for explosives that are closeby!
 const explosivesAboutToGoBoom = createTreeQuery(
   Radius, Position, IsExplosiveOnContact,
-  // we say that bombs don't interact with other bombs or health pickups, but
-  // changing that would simply mean removing these two (restricting to spaceships
-  // would just mean adding spaceship as a trait)
+  // we say that bombs don't interact with other bombs or health pickups, 
+  // that restriction coud easily be lifted 💥 
   InPickupRange(Radius, Position, Not(IsExplosiveOnContact), Not(IsHealthPickup))
 );
 
