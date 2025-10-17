@@ -16,9 +16,10 @@ import {createTreeQueryFilter} from "./create-tree-query-filter";
 import {createTreeQuery} from "./tree-query";
 
 const Likes = createTreeQueryFilter((entity1, entity2, world) => {
-  // use any criteria you'd like: 
-  // compute distance between them to see if they're close, 
-  // check if they have the same target, roll a dice, 
+  // use any criteria you like, e.g: 
+  // - compute distance between them to see if they're close, 
+  // - check if they have the same target
+  // - roll a dice, 
   // you name it.
 
   return likes(entiy1, entity2);
@@ -201,5 +202,5 @@ const spaceshipsLivingDangerously = createTreeQuery(
 
 
 ## I want to try it!
-Sure, just copy **tree-query.ts** source into your project 
+Sure, just copy the **tree-query.ts** source into your project 
 (make sure you have Koota installed), and you're good to go.
