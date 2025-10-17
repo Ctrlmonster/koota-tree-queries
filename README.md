@@ -10,7 +10,7 @@ of your player that are hostile to the player? Sure.
 that's currently fishing? No problem.
 
 ```ts
-// Step1: define your filter, could be anything
+// Step1: define your filter, could be anything, just make sure to return a boolean 
 
 import {createTreeQueryFilter} from "./create-tree-query-filter";
 import {createTreeQuery} from "./tree-query";
@@ -30,7 +30,7 @@ const myQuery = createTreeQuery(Foo, Bar, Likes(Baz))
 
 // returns: all entities that have foo, bar and 
 // 'Likes' returns true for at least one entity with Baz!
-myQuery(world)
+const entities = myQuery(world)
 
 ```
 
@@ -42,6 +42,7 @@ myQuery(world)
 parent.add(IsParentOf(child1), IsParentOf(child2));
 child1.add(IsChildOf(parent));
 child2.add(IsChildOf(parent));
+
 
 // Custom Filter Function now lets you query for siblings even 
 // though there is no SiblingOf relation defined!
@@ -56,6 +57,10 @@ const HasSiblings = createTreeQueryFilter((e1, e2, _world) => {
 // Create a Tree Query 
 const siblings = createTreeQuery(HasSiblings(), /* add any extra traits here*/);
 expect(siblings(world).length).toBe(2);
+
+
+// -----------------------------------------------------------------------------
+
 
 // Add extra traits
 child1.add(Foo);
@@ -76,6 +81,7 @@ expect(HasSiblingWithFoo(world)).toContain(child2);
 
 ### Stupid nesting capabilities
 ```ts
+// spawn a tree of Koota relationships
 const treeRoot =
   world.spawn(A, IsParentOf(
     world.spawn(B, IsParentOf(
@@ -88,6 +94,7 @@ const treeRoot =
   ));
 
 
+// match that tree exactly as a query
 const TreeRoot = createTreeQuery(
   A, HasChild(
     B, HasChild(
@@ -97,11 +104,11 @@ const TreeRoot = createTreeQuery(
 );
 
 
-// query for an entity that matches this exact tree structure
+// we get back the root node
 expect(TreeRoot(world).length).toBe(1);
 expect(TreeRoot(world)).toContain(treeRoot);
 
-// delete any part of it and the query no longer matches
+// delete any part of the tree and the query no longer matches
 world.queryFirst(E)!.destroy();
 expect(TreeRoot(world).length).toBe(0);
 ```
@@ -113,8 +120,8 @@ expect(TreeRoot(world).length).toBe(0);
 const Position = trait({x: 0, y: 0});
 const Radius = trait({value: 0});
 
-const IsSpaceship = trait(); 
-const IsHealthPickup = trait();  
+const IsSpaceship = trait(); // 🚀
+const IsHealthPickup = trait(); // 💟️️ 
 
 // our custom query filter function:
 const InPickupRange = createTreeQueryFilter((eid1, eid2, _world) => {
@@ -133,23 +140,29 @@ const InPickupRange = createTreeQueryFilter((eid1, eid2, _world) => {
 });
 
 
-// example query 1: check for spaceships that have pickups in range
+// -----------------------------------------------------------------------------
+
+
+// example query 1 🚀(💟️): check for spaceships that have pickups in range
 const spaceshipsWithPickupsInRange = createTreeQuery(
   IsSpaceship, Radius, Position,
   InPickupRange(IsHealthPickup, Radius, Position) // the filter needs all these to be present
 );
 
-// example query2 : check for pickups that are in range of a spaceship
+
+
+// example query2 💟️(🚀): check for pickups that are in range of a spaceship
 const pickupsThatHaveASpaceshipInRange = createTreeQuery(
   IsHealthPickup, Radius, Position,
   InPickupRange(IsSpaceship, Radius, Position)
 );
 
+// -----------------------------------------------------------------------------
 
 ```
 
 ```ts
-// let's add some spice: Explosives!
+// let's add some spice: Explosives! 💣
 const IsExplosiveOnContact = trait();
 const explosive = world.spawn(IsExplosiveOnContact, Radius, Position)
 
@@ -166,6 +179,7 @@ const explosivesAboutToGoBoom = createTreeQuery(
 
 // Not enough?
 
+// 🚀(💟️)(💣)
 const spaceshipsLivingDangerously = createTreeQuery(
   IsSpaceship, Position, Radius, // spaceships,
 
