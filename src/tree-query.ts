@@ -37,14 +37,14 @@ export type QueryTree = Array<QueryFilterNode | Trait>;
  *   have a child with the Component 'Bar'.
  *
  *
- *   const myTreeQuery = createTreeQuery([Foo, SomeChild([Bar])]);
+ *   const myTreeQuery = createTreeQuery(Foo, SomeChild(Bar));
  *   -----------------------------------------------------------------
  *
  *   2) Create a query for all entities with the component set [A, B] that
  *   have a child that match the component set [C, D],
  *
  *
- *   const myTreeQuery = createTreeQuery([A, B, SomeChild([C, D])]);
+ *   const myTreeQuery = createTreeQuery(A, B, SomeChild(C, D));
  *   -----------------------------------------------------------------
  *
  *   3) Nesting: Create a query for all entities with the component A that
@@ -52,13 +52,13 @@ export type QueryTree = Array<QueryFilterNode | Trait>;
  *   with component C.
  *
  *
- *   const myTreeQuery = createTreeQuery([
- *    A, SomeChild([
- *      B, SomeChild([
+ *   const myTreeQuery = createTreeQuery(
+ *    A, SomeChild(
+ *      B, SomeChild(
  *        C
- *      ])
- *    ])
- *   ]);
+ *      )
+ *    )
+ *   );
  *   -----------------------------------------------------------------
  * </pre>
  */
@@ -79,11 +79,12 @@ export function createTreeQuery(...queryTree: QueryTree) {
   // flatten tree
 
   // Rough overview of the query execution algorithm:
-  // For each node (in depth-first tree traversal order)
+  // For each node (in reverse depth-first tree traversal order)
   //  execute the parent ecs query and save the result
-  //  For each child
+  //  For each (parent, child) pair
   //    reduce both child and parent list by filtering(parentEids, childEids)
-  // Return the list of root query eids that are left
+  //    early out if any intermediate result is empty
+  // Return the list of root query eids that are left 
 
   // -------------------------------------------------------------------------------------------------------------------
   // Some function internal helper types
@@ -114,7 +115,7 @@ export function createTreeQuery(...queryTree: QueryTree) {
 
   // No real chance to generate the same random number twice, just to make sure, if the id already exists we just
   // create a new one (a simple counter could have worked, but it was annoying to get right
-  // from within the recursive build algorithm).
+  // from within the recursive build algorithm) – not used after build is done.
   const genId = (() => {
     const prevIds = new Set<number>();
     const genSafeId = (): number => {
@@ -215,7 +216,7 @@ export function createTreeQuery(...queryTree: QueryTree) {
   // Create all pure ecs queries
   const queryById = new Map<number, QueryHash<any>>();
   for (const {id, components} of finalQueries) {
-    const hash = cacheQuery(...components);
+    const hash = cacheQuery(...components); // Since Koota eval's queries on demand (or accepts a query hash), we hash here
     queryById.set(id, hash);
   }
 
@@ -273,7 +274,7 @@ export function createTreeQuery(...queryTree: QueryTree) {
   // iterated over in execution and prepare some reusable data containers to avoid unnecessary creation during execution
 
   const rootNode = nodeStore.get(rootId);
-  // we expect this to never happen, but in case it does, better to throw an error than to fail silently
+  // we expect this to never happen, but in case it does, better to throw an error at build time than run time
   if (!rootNode) {
     throw new Error(`createTreeQuery: Unexpected failure when creating Tree Query. Please report/investigate.`);
   }
@@ -306,12 +307,13 @@ export function createTreeQuery(...queryTree: QueryTree) {
 
   // ------
   // we need to reverse traversal order to start at the innermost query
-  // (which helps us not having to update any previous results)
+  // (otherwise we'd have to update previous results)
   edgesFlattened.reverse();
   // ------
 
+  
   // ===================================================================================================================
-  // The final result:
+  // The final runtime function:
   // This is what gets called when we execute a generated query.
 
   return (world: World) => {
