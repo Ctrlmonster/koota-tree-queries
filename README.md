@@ -10,7 +10,7 @@ of your player that are hostile to the player? Sure.
 that's currently fishing? No problem.
 
 ```ts
-// Step1: define your filter, could be anything, just make sure to return a boolean
+// Step 1: define your filter, could be anything, just make sure to return a boolean
 
 import {createTreeQuery, createTreeQueryFilter} from "./tree-query";
 
