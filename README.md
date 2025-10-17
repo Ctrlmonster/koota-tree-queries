@@ -164,7 +164,7 @@ const OperatedBy = relation();
 const pickupsInPlayerShipRange = createTreeQuery(
   IsHealthPickup, Radius, Position,
   InPickupRange(IsSpaceship, Radius, Position,
-                OperatedBy(IsPlayer)
+    OperatedBy(IsPlayer)
   )
 );
 
