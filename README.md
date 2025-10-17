@@ -26,9 +26,11 @@ const Likes = createTreeQueryFilter((entity1, entity2, world) => {
 
 
 // Step 2: Create a query
+const myQuery = createTreeQuery(Foo, Bar, Likes(Baz))
 
-// all entities that have foo, bar and 'Likes' returns true for at least one entity with Baz!
-createTreeQuery(Foo, Bar, Likes(Baz))
+// returns: all entities that have foo, bar and 
+// 'Likes' returns true for at least one entity with Baz!
+myQuery(world)
 
 ```
 
