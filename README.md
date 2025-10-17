@@ -3,9 +3,9 @@
 High performance, nestable queries that let you define
 custom filter functions. 
 
-- All enemies that are in range of your player? Easy. 
+- All entities that are in range of your player? Easy. 
 - All entities that are in range 
-of your player that are hostile to you? Sure. 
+of your player that are hostile to the player? Sure. 
 - All entities that have a yellow pickaxe that was stolen by a Goblin
 that's currently fishing? No problem.
 
