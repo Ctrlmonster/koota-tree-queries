@@ -1,7 +1,7 @@
 # Koota Tree Queries
 
 High performance, nestable queries that let you define
-custom filter functions. 
+custom filter functions for [Koota](https://github.com/pmndrs/koota). 
 
 - All entities that are in range of your player? Easy. 
 - All entities that are in range 
