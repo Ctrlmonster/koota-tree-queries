@@ -1,18 +1,12 @@
-import {createTreeQueryFilter} from "./create-tree-query-filter.ts";
 import {createWorld, trait} from "koota";
-import {createTreeQuery} from "./tree-query.ts";
+import {createTreeQuery, createTreeQueryFilter} from "./tree-query.ts";
 
 
 /*
-
 =============================================================================
-
 Check the tests for real examples:
-
-
 =============================================================================
-
- */
+*/
 
 
 const world = createWorld();

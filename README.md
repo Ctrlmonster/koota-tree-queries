@@ -201,4 +201,5 @@ const spaceshipsLivingDangerously = createTreeQuery(
 
 
 ## I want to try it!
-Sure, just copy the **create-tree-query.ts** and **tree-query.ts** source into your project and you're good to go.
+Sure, just copy **tree-query.ts** source into your project 
+(make sure you have Koota installed), and you're good to go.

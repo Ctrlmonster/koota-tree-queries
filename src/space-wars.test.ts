@@ -1,6 +1,5 @@
-import {createTreeQueryFilter} from "./create-tree-query-filter.ts";
 import {createWorld, Not, trait} from "koota";
-import {createTreeQuery} from "./tree-query.ts";
+import {createTreeQuery, createTreeQueryFilter} from "./tree-query.ts";
 import {describe, expect, it} from "vitest";
 
 

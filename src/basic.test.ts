@@ -1,7 +1,6 @@
 import {describe, expect, it} from "vitest";
 import {createWorld, relation, trait} from "koota";
-import {createTreeQuery} from "./tree-query.ts";
-import {createTreeQueryFilter} from "./create-tree-query-filter.ts";
+import {createTreeQuery, createTreeQueryFilter} from "./tree-query.ts";
 
 describe('basics covered', () => {
 
