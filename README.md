@@ -181,7 +181,7 @@ const explosive = world.spawn(IsExplosiveOnContact, Radius, Position)
 // query for explosives that are closeby!
 const explosivesAboutToGoBoom = createTreeQuery(
   Radius, Position, IsExplosiveOnContact,
-  // we restrict explosives to not interact with each other health pickups, 
+  // we restrict explosives to not interact with each other, or health pickups. 
   // (that restriction coud easily be lifted 💥) 
   InPickupRange(Radius, Position, Not(IsExplosiveOnContact), Not(IsHealthPickup))
 );
