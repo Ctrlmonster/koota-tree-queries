@@ -119,6 +119,8 @@ expect(TreeRoot(world).length).toBe(0);
 ### To abstract? More gamified example:
 
 ```ts
+import {relation} from "koota";
+
 const Position = trait({x: 0, y: 0});
 const Radius = trait({value: 0});
 
@@ -150,11 +152,21 @@ const spaceshipsWithPickupsInRange = createTreeQuery(
 );
 
 
-
 // example query2 💟️(🚀): check for pickups that are in range of a spaceship
 const pickupsThatHaveASpaceshipInRange = createTreeQuery(
   IsHealthPickup, Radius, Position,
   InPickupRange(IsSpaceship, Radius, Position)
+);
+
+// example query3 💟️(🚀(🧑)): check for pickups that are in range of a spaceship 
+//                        that is controlled by a player
+
+const OperatedBy = relation(); 
+const pickupsInPlayerShipRange = createTreeQuery(
+  IsHealthPickup, Radius, Position,
+  InPickupRange(IsSpaceship, Radius, Position,
+                OperatedBy(IsPlayer)
+  )
 );
 
 // -----------------------------------------------------------------------------
