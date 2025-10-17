@@ -159,7 +159,7 @@ const pickupsThatHaveASpaceshipInRange = createTreeQuery(
 );
 
 // example query3 💟️(🚀(🧑)): check for pickups that are in range of a spaceship 
-//                        that is controlled by a player
+//                            that is controlled by a player
 
 const OperatedBy = relation(); 
 const pickupsInPlayerShipRange = createTreeQuery(
