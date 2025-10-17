@@ -10,10 +10,9 @@ of your player that are hostile to the player? Sure.
 that's currently fishing? No problem.
 
 ```ts
-// Step1: define your filter, could be anything, just make sure to return a boolean 
+// Step1: define your filter, could be anything, just make sure to return a boolean
 
-import {createTreeQueryFilter} from "./create-tree-query-filter";
-import {createTreeQuery} from "./tree-query";
+import {createTreeQuery, createTreeQueryFilter} from "./tree-query";
 
 const Likes = createTreeQueryFilter((entity1, entity2, world) => {
   // use any criteria you like, e.g: 
