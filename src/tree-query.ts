@@ -368,12 +368,18 @@ export function createTreeQuery(...queryTree: QueryTree) {
  * Pass a condition that works out whether to include an entity in the parent query by
  * comparing it with entities in the child query.
  * <pre>
- *   Example:
+ * const InPickupRange = createTreeQueryFilter((eid1, eid2, _world) => {
+ *   // get both positions and calc distance against a threshold (radii here)
+ *   const myPos = eid1.get(Position)!;
+ *   const otherPos = eid2.get(Position)!;
  *
- *   const SomeChild = createTreeQueryFilter((parentEid, childEid, world) => {
- *      const child = world.getEntity(childEid)!;
- *      return (child.parent?.getEntityId() === parentEid);
- *   })
+ *   const myRadius = eid1.get(Radius)!.value;
+ *   const otherRadius = eid2.get(Radius)!.value;
+ *
+ *   // check if in range considering center distances and both radii
+ *   const dist = Math.sqrt((myPos.x - otherPos.x) ** 2 + (myPos.y - otherPos.y) ** 2);
+ *   return (dist - otherRadius) <= myRadius;
+ * });
  *  </pre>
  * @param condition
  */
